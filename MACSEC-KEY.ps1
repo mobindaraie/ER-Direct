@@ -11,15 +11,17 @@ $length = 64
 $cknstring = -join (Get-Random -Count $length -Minimum 0 -Maximum 16 | ForEach-Object { $_.ToString("X") })
 $cknstring = -join (Get-Random -Count $length -Minimum 0 -Maximum 16 | ForEach-Object { $_.ToString("X") })
 
-
+# store the key in the key vault
 $CAK = ConvertTo-SecureString $cknstring -AsPlainText -Force
 $CKN = ConvertTo-SecureString $cknstring -AsPlainText -Force
 $MACsecCAKSecret = Set-AzKeyVaultSecret -VaultName $kvname -Name "CAK-ER-Direct-AUE" -SecretValue $CAK
 $MACsecCKNSecret = Set-AzKeyVaultSecret -VaultName $kvname -Name "CKN-ER-Direct-AUE" -SecretValue $CKN
 
+# Get the ER and ER Identity
 $erDirect = Get-AzExpressRoutePort -ResourceGroupName $rgname -Name $ername
 $erIdentity = Get-AzExpressRoutePortIdentity -ExpressRoutePort $erDirect
 
+# Update the ER with the MACsec configuration
 $erDirect.Links[0]. MacSecConfig.CknSecretIdentifier = $MacSecCKNSecret.Id
 $erDirect.Links[0]. MacSecConfig.CakSecretIdentifier = $MacSecCAKSecret.Id
 $erDirect.Links[0]. MacSecConfig.Cipher = "GcmAes256"
