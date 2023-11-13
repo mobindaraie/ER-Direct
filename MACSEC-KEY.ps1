@@ -17,9 +17,6 @@ $CKN = ConvertTo-SecureString $cknstring -AsPlainText -Force
 $MACsecCAKSecret = Set-AzKeyVaultSecret -VaultName $kvname -Name "CAK-ER-Direct-AUE" -SecretValue $CAK
 $MACsecCKNSecret = Set-AzKeyVaultSecret -VaultName $kvname -Name "CKN-ER-Direct-AUE" -SecretValue $CKN
 
-$secret = Get-AzKeyVaultSecret -VaultName $kvname -Name "CAK-ER-Direct-AUE"
-$secret
-
 $erDirect = Get-AzExpressRoutePort -ResourceGroupName $rgname -Name $ername
 $erIdentity = Get-AzExpressRoutePortIdentity -ExpressRoutePort $erDirect
 
