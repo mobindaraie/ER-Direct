@@ -1,0 +1,10 @@
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+.terraform/
+*.plan
+ERDirect.ps1
+ERDirect2.ps1
+*.lock.hcl
+*.vscode*
